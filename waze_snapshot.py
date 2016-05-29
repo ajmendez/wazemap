@@ -15,8 +15,8 @@ con = sqlite3.connect(DB_FILENAME)
 cur = con.cursor()
 
 
-
-NOW = int(datetime.now().strftime('%s'))*1000
+NOW = datetime.now()
+NOWINT = int(NOW.strftime('%s'))*1000
 URL = 'https://www.waze.com/rtserver/web/TGeoRSS'
 BBOX = []
 PARAMS = dict(
@@ -28,7 +28,7 @@ PARAMS = dict(
     right=-121.83082580566406,
     bottom=37.30197581405354,
     top=37.48658068765521,
-    _=NOW, # request date / last request?
+    _=NOWINT, # request date / last request?
 )
 
 
@@ -84,7 +84,7 @@ def _item(data, name, tags):
         values=','.join(['?' for t in tags.keys()])
     )
     cur.executemany(statement, out)
-    print('Finished {name}\n    Added: {added:,d}\n    Total: {total:,d}'.format(
+    print('  Finished {name}\n    Added: {added:,d}\n    Total: {total:,d}'.format(
              name=name, added=len(out), total=_len(name),
     ))
     con.commit()
@@ -92,7 +92,7 @@ def _item(data, name, tags):
 
 def save_alerts(data):
     tags = OrderedDict(
-        date=('xxxdate', NOW),
+        date=('xxxdate', NOWINT),
         uuid='uuid',
         type='type',
         subtype='subtype',
@@ -112,7 +112,7 @@ def save_alerts(data):
 
 def save_users(data):
     tags = OrderedDict(
-        date=('xxxdate', NOW),
+        date=('xxxdate', NOWINT),
         username='userName',
         userid='id',
         lon='location.x',
@@ -142,7 +142,7 @@ def jams_line(item, name, outname):
 
 def save_jams(data):
     tags = OrderedDict(
-        date=('xxxdate', NOW),
+        date=('xxxdate', NOWINT),
         uuid='uuid',
         jam_line_id=('line', jams_line),
         speed='speed',
@@ -167,6 +167,7 @@ def main():
 
 
 if __name__ == '__main__':
+    print('snapshot: {} {}'.format(NOWINT, NOW))
     main()
     con.close()
 
