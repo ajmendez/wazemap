@@ -19,6 +19,7 @@ import argparse
 import string
 import config
 import json
+from datetime import datetime
 
 from setproctitle import setproctitle
 setproctitle('waze_twitter')

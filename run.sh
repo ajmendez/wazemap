@@ -28,7 +28,7 @@ fi
 
 if [ $START -eq 1 ]; then
 	sleep 10
-	python waze_twitter.py >> 2>&1 &
+	python $HOME/dev/wazemap/waze_twitter.py -d $HOME/data/waze -q waze >> $HOME/tmp/log_waze_run.log 2>&1 &
 	echo $! > $PIDFILE
 	echo 'Running....'
 fi
