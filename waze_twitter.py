@@ -48,7 +48,12 @@ class MyListener(StreamListener):
 
     def __init__(self, data_dir, query):
         query_fname = format_filename(query)
-        self.outfile = "%s/stream_%s.json" % (data_dir, query_fname)
+        params = dict(
+            dir = data_dir,
+            query = query_fname,
+            date = datetime.now(),
+        )
+        self.outfile = "{dir}/stream_{query}_{date:%Y}.{date:%m}.{date:%d}.json".format(**params)
         self.n = 0
 
     def on_data(self, data):

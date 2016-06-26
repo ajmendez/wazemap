@@ -5,7 +5,10 @@
 import os
 import json
 import sqlite3
-DB_FILENAME = os.path.expanduser('~/data/waze/data.db')
+from datetime import datetime
+#DB_FILENAME = os.path.expanduser('~/data/waze/data.db')
+DB_FILENAME = os.path.expanduser('~/data/waze/data_{0:%Y}.{0:%m}.{0:%d}.db'.format(datetime.now()))
+
 
 SETUP = '''
 CREATE TABLE IF NOT EXISTS users( 

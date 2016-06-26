@@ -10,7 +10,11 @@ from pprint import pprint
 from datetime import datetime
 from collections import OrderedDict
 
-from waze_setup import DB_FILENAME
+from waze_setup import DB_FILENAME, setup
+
+
+if not os.path.exists(DB_FILENAME):
+    setup(DB_FILENAME)
 con = sqlite3.connect(DB_FILENAME)
 cur = con.cursor()
 
